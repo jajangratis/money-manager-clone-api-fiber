@@ -23,17 +23,15 @@ func NewMstUserService(mstUserRepository repository.MstUserRepository, DB *gorm.
 	}
 }
 
-func (service *MstUserServiceImpl) Login(username string, password string) web.WebResponse {
-	if username == "" {
-		return helper.InvalidParameter()
-	}
-	if password == "" {
+func (service *MstUserServiceImpl) Login(login *web.LoginRequest) web.WebResponse {
+	err := service.Validate.Struct(login)
+	if err != nil {
 		return helper.InvalidParameter()
 	}
 	tx := app.OpenConnection()
-	data := service.MstUserRepository.FindOne(tx, username)
+	data := service.MstUserRepository.FindOne(tx, login.Username)
 	decodedDbPassword := helper.Decoded(data.Password)
-	if password != decodedDbPassword {
+	if login.Password != decodedDbPassword {
 		return helper.InvalidParameterWithMessage("invalid_email_password")
 	} else {
 		token, err := helper.CreateJWT("userId", data.Username)

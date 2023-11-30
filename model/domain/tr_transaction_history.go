@@ -5,10 +5,15 @@ import (
 	"time"
 )
 
+type AggregationResult struct {
+	TotalAmount int64 `gorm:"column:total_amount"`
+	TotalFee    int64 `gorm:"column:total_fee"`
+}
+
 //ALIAS TransactionHistory
 
 type TrTransactionHistory struct {
-	Id                uuid.UUID       `json:"id" gorm:"primary_key;column:id"`
+	Id                uuid.UUID       `json:"id" gorm:"primary_key;column:id;type:uuid;default:uuid_generate_v4()"`
 	TransactionMethod *MstTransaction `json:"transaction_method" gorm:"foreignKey:method_id;references:method_id"`
 	AccountType       *MstAccountType `json:"account_type" gorm:"foreignKey:account_id;references:account_id"`
 	Category          *MstCategory    `json:"category" gorm:"foreignKey:category_id;references:category_id"`

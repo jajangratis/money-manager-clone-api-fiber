@@ -8,7 +8,7 @@ import (
 // ALIAS User
 
 type MstUser struct {
-	Id                 uuid.UUID              `json:"id" gorm:"column:id"`
+	Id                 uuid.UUID              `json:"id" gorm:"column:id;type:uuid;default:uuid_generate_v4()"`
 	Username           string                 `json:"username" gorm:"primary_key;column:username"`
 	Email              string                 `json:"email" gorm:"column:email"`
 	Password           string                 `json:"password" gorm:"column:password"`

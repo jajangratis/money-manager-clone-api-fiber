@@ -11,7 +11,7 @@ import (
 func OpenConnection() *gorm.DB {
 	godotenv.Load()
 	dsn := "host=" + os.Getenv("DB_HOST") + " user=" + os.Getenv("DB_USERNAME") + " password=" + os.Getenv("DB_PASSWORD") + " dbname=" + os.Getenv("DB_SELECT") + " port=" + os.Getenv("DB_PORT") + " sslmode=disable TimeZone=Asia/Bangkok"
-	loggerInfo := logger.Info
+	loggerInfo := logger.Error
 	if os.Getenv("ENVIROMENT") != "local" {
 		loggerInfo = logger.Error
 	}

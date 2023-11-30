@@ -23,6 +23,6 @@ func (controller *MstUserControllerImpl) Login(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.JSON(helper.InvalidParameter())
 	}
-	data := controller.MstUserService.Login(request.Username, request.Password)
+	data := controller.MstUserService.Login(request)
 	return ctx.JSON(data)
 }

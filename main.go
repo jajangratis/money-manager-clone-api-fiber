@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/jajangratis/money-manager-clone-api-fiber/routers"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
@@ -33,9 +32,9 @@ func main() {
 			return ctx.SendString("error " + err.Error())
 		},
 	})
-	app.Use(logger.New(logger.Config{
-		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
-	}))
+	//app.Use(logger.New(logger.Config{
+	//	Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
+	//}))
 	api := app.Group("/")
 	routers.AppRouter(api)
 	err := app.Listen(os.Getenv("IP_HOST") + ":3000")

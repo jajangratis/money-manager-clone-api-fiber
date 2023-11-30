@@ -8,7 +8,7 @@ import (
 //ALIAS TransactionMethod
 
 type MstTransaction struct {
-	Id                 uuid.UUID              `json:"id" gorm:"column:id"`
+	Id                 uuid.UUID              `json:"id" gorm:"column:id;type:uuid;default:uuid_generate_v4()"`
 	MethodId           string                 `json:"method_id" gorm:"primary_key;column:method_id"`
 	MethodName         string                 `json:"method_name" gorm:"column:method_name"`
 	CreatedDate        time.Time              `json:"created_date" gorm:"column:created_date;autoCreateTime"`

@@ -7,7 +7,7 @@ import (
 
 // ALIAS Category
 type MstCategory struct {
-	Id                 uuid.UUID              `json:"id" gorm:"column:id"`
+	Id                 uuid.UUID              `json:"id" gorm:"column:id;type:uuid;default:uuid_generate_v4()"`
 	CategoryId         string                 `json:"category_id" gorm:"primary_key;column:category_id"`
 	CategoryName       string                 `json:"category_name" gorm:"column:category_name"`
 	MethodId           string                 `json:"method_id" gorm:"column:method_id"`

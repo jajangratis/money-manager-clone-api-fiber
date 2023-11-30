@@ -8,7 +8,7 @@ import (
 //ALIAS AccountType
 
 type MstAccountType struct {
-	Id                 uuid.UUID            `json:"id" gorm:"column:id"`
+	Id                 uuid.UUID            `json:"id" gorm:"column:id;type:uuid;default:uuid_generate_v4()"`
 	AccountId          string               `json:"account_id" gorm:"primary_key;column:account_id"`
 	AccountName        string               `json:"account_name" gorm:"column:account_name"`
 	CreatedDate        time.Time            `json:"created_date" gorm:"column:created_date;autoCreateTime"`
