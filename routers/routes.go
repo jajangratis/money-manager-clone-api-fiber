@@ -90,4 +90,6 @@ func AppRouter(app fiber.Router) {
 	api.Get("/tr-transaction-history", trTransactionHistoryController.FindAll)
 	api.Get("/tr-transaction-history/report-income-expenses", trTransactionHistoryController.ReportIncomeExpense)
 	api.Post("/tr-transaction-history", trTransactionHistoryController.Save)
+	api.Put("/tr-transaction-history", trTransactionHistoryController.Edit)
+	api.Delete("/tr-transaction-history/:id", trTransactionHistoryController.Delete)
 }

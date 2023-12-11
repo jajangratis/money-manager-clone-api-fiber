@@ -6,4 +6,6 @@ type TrTransactionHistoryService interface {
 	FindAll(username string) web.WebResponse
 	Save(data *web.InputSaveTransactionHistory) web.WebResponse
 	ReportByMethodId(input *web.ReportByMethodIdInput) web.WebResponse
+	Edit(data *web.InputEditTransactionHistory) web.WebResponse
+	Delete(data *web.InputDeleteTransactionHistory) web.WebResponse
 }

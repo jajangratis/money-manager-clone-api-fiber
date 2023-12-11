@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"github.com/jajangratis/money-manager-clone-api-fiber/model/web"
 	"github.com/jajangratis/money-manager-clone-api-fiber/service"
 )
@@ -43,5 +45,35 @@ func (controller *TrTransactionHistoryControllerImpl) ReportIncomeExpense(ctx *f
 	}
 	data.Username = username
 	result := controller.TrTransactionHistoryService.ReportByMethodId(data)
+	return ctx.JSON(result)
+}
+
+func (controller *TrTransactionHistoryControllerImpl) Edit(ctx *fiber.Ctx) error {
+	username := ctx.Get("userId")
+	data := new(web.InputEditTransactionHistory)
+	err := ctx.BodyParser(data)
+	if err != nil {
+		return err
+	}
+	data.Username = username
+	result := controller.TrTransactionHistoryService.Edit(data)
+	return ctx.JSON(result)
+}
+
+func (controller *TrTransactionHistoryControllerImpl) Delete(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	data := new(web.InputDeleteTransactionHistory)
+	err := ctx.BodyParser(data)
+	if err != nil {
+		return err
+	}
+	// Parse the string into a UUID
+	parsedUUID, err := uuid.Parse(id)
+	if err != nil {
+		fmt.Println("Error parsing UUID:", err)
+		return err
+	}
+	data.Id = parsedUUID
+	result := controller.TrTransactionHistoryService.Delete(data)
 	return ctx.JSON(result)
 }

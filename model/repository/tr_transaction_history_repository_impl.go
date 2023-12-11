@@ -20,7 +20,12 @@ func (repository *TrTransactionHistoryRepositoryImpl) FindAll(db *gorm.DB, usern
 		_ = dbInstance.Close()
 	}()
 	var data []domain.TrTransactionHistory
-	result := db.Find(&data, "username = ?", username).Error
+	result := db.Model(&domain.TrTransactionHistory{}).Select(
+		"Id",
+		"From",
+		"Username",
+		"To", "Amount", "Fee", "Note", "MethodId",
+		"AccountId", "CategoryId", "CreatedDate", "UpdatedDate").Find(&data, "username = ?", username).Error
 	helper.PanicIfError(result)
 	return data
 }
@@ -51,4 +56,34 @@ func (repository *TrTransactionHistoryRepositoryImpl) SumData(ctx context.Contex
 	err := db.Where("username = ? and method_id = ?", username, methodId).Model(&domain.TrTransactionHistory{}).Select("SUM(amount) as total_amount", "SUM(fee) as total_fee").Group("method_id").Find(&result).Error
 	helper.PanicIfError(err)
 	return result
+}
+
+func (repository *TrTransactionHistoryRepositoryImpl) Edit(ctx context.Context, db *gorm.DB, data domain.TrTransactionHistory) {
+	err := db.Transaction(func(tx *gorm.DB) error {
+		//err := tx.Clauses(clause.Locking{Strength: "UPDATE"}).Take(&user, "id = $1", "2").Error
+		defer func() {
+			dbInstance, _ := db.DB()
+			_ = dbInstance.Close()
+		}()
+		result := db.WithContext(ctx).Where("id = ?", data.Id).Updates(&data).Error
+		return result
+	})
+	if err != nil {
+		helper.PanicIfError(err)
+	}
+}
+
+func (repository *TrTransactionHistoryRepositoryImpl) Delete(ctx context.Context, db *gorm.DB, data domain.TrTransactionHistory) {
+	err := db.Transaction(func(tx *gorm.DB) error {
+		//err := tx.Clauses(clause.Locking{Strength: "UPDATE"}).Take(&user, "id = $1", "2").Error
+		defer func() {
+			dbInstance, _ := db.DB()
+			_ = dbInstance.Close()
+		}()
+		result := db.WithContext(ctx).Where("id = ?", data.Id).Delete(&data).Error
+		return result
+	})
+	if err != nil {
+		helper.PanicIfError(err)
+	}
 }

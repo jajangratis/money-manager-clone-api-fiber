@@ -16,7 +16,8 @@ func OpenConnection() *gorm.DB {
 		loggerInfo = logger.Error
 	}
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(loggerInfo),
+		Logger:      logger.Default.LogMode(loggerInfo),
+		PrepareStmt: true,
 	})
 	if err != nil {
 		panic(err)

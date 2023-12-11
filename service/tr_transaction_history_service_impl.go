@@ -97,3 +97,40 @@ func (service *TrTransactionServiceImpl) ReportByMethodId(input *web.ReportByMet
 
 	return helper.Ok(data)
 }
+
+func (service *TrTransactionServiceImpl) Edit(data *web.InputEditTransactionHistory) web.WebResponse {
+	input := domain.TrTransactionHistory{
+		Id:         data.Id,
+		From:       data.From,
+		To:         data.To,
+		Amount:     data.Amount,
+		Fee:        data.Fee,
+		Note:       data.Note,
+		Username:   data.Username,
+		MethodId:   data.MethodId,
+		AccountId:  data.AccountId,
+		CategoryId: data.CategoryId,
+	}
+	tx := app.OpenConnection()
+	ctx := context.Background()
+	err := service.Validate.Struct(data)
+	if err != nil {
+		return helper.InvalidParameter()
+	}
+	service.TrTransactionHistoryRepository.Edit(ctx, tx, input)
+	return helper.Ok("")
+}
+
+func (service *TrTransactionServiceImpl) Delete(data *web.InputDeleteTransactionHistory) web.WebResponse {
+	input := domain.TrTransactionHistory{
+		Id: data.Id,
+	}
+	tx := app.OpenConnection()
+	ctx := context.Background()
+	err := service.Validate.Struct(data)
+	if err != nil {
+		return helper.InvalidParameter()
+	}
+	service.TrTransactionHistoryRepository.Delete(ctx, tx, input)
+	return helper.Ok("")
+}

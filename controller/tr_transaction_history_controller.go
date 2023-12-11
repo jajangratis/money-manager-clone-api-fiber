@@ -6,4 +6,6 @@ type TrTransactionHistoryController interface {
 	FindAll(ctx *fiber.Ctx) error
 	Save(ctx *fiber.Ctx) error
 	ReportIncomeExpense(ctx *fiber.Ctx) error
+	Edit(ctx *fiber.Ctx) error
+	Delete(ctx *fiber.Ctx) error
 }
