@@ -64,6 +64,11 @@ func AppRouter(app fiber.Router) {
 	app.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		data := ctx.Get("userId")
+		fmt.Println(data)
+		return ctx.SendString("Hello " + data)
+	})
 	app.Get("/swagger/*", swagger.HandlerDefault)
 	//PUBLIC ACCESSS
 	public := app.Group("/public/api")

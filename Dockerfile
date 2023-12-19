@@ -1,9 +1,12 @@
-FROM golang:1.21.4
+FROM golang:1.21.5
 
-WORKDIR /app
+EXPOSE 3000/udp
+EXPOSE 3000/tcp
+
+WORKDIR /usr/src/app
 COPY . .
+RUN go mod download && go mod verify
+RUN go build -v -o -ldflags="-s -w" -o money-manager-clone-api-fiber
 
-RUN go build -ldflags="-s -w" -o money-manager-clone-api-fiber
 
-EXPOSE 3000
 CMD ["./money-manager-clone-api-fiber"]
